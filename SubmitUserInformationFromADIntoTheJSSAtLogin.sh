@@ -25,10 +25,10 @@ loggedInUser=""
 ####################################################################################################
 
 #Get the logged in users username
-loggedInUser=`/bin/ls -l /dev/console | /usr/bin/awk '{print $3}'`
+loggedInUser=`/bin/ls -l /dev/console | /usr/bin/awk '{ print $3 }'`
 
 #Get UniqueID
-accountType=`dscl . -read /Users/$loggedInUser | grep UniqueID | awk ‘{print $2}’`
+accountType=`dscl . -read /Users/$loggedInUser | grep UniqueID | /usr/bin/awk '{ print $2 }'`
 
 #If UniqueID is over 1000 then account will be a network account
 if (( "$accountType" > 1000 )); then
@@ -78,7 +78,7 @@ if (( "$accountType" > 1000 )); then
 				userDepartment=`dscl . -read /Users/$loggedInUser | awk ‘/^Department:/,/^EMailAddress:/’ | head -2 | tail -1 | cut -c 2-`
 			fi
 
-	echo "Submitting information for network account $loggedInUser…"
+	echo "Submitting information for network account $loggedInUser..."
 	
 	echo "-endUsername "$loggedInUser" -realname "$userRealName" -email "$userEMail" -position "$userPosition" -phone "$userPhoneNumber" -department "$userDepartment""
 	
